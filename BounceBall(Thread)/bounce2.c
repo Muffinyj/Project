@@ -1,4 +1,4 @@
-// ¿À¸¥ÂÊ¸¸ ¶Õ·ÁÀÖ´Â bounce1
+// ì˜¤ë¥¸ìª½ë§Œ ëš«ë ¤ìˆëŠ” bounce1
 
 #include <windows.h>
 
@@ -9,7 +9,7 @@ void DoButtonMain(HWND hWnd);
 void DoPaintMain(HWND hWnd);
 void OnTimer(HWND hWnd);
 
-//°øÀÇ Å©±â, ½ºÆ½ÀÇ Å©±â(±æÀÌ ³ĞÀÌ)
+//ê³µì˜ í¬ê¸°, ìŠ¤í‹±ì˜ í¬ê¸°(ê¸¸ì´ ë„“ì´)
 #define R 20 
 #define BOUNCE 1
 #define W 20
@@ -19,7 +19,7 @@ HBITMAP hBit;
 HINSTANCE g_hInst;
 HWND hWndMain, hWnd2;
 HANDLE hThread;
-//³»°¡ ¸¸µå´Â ÇÁ·Î±×·¥ÀÇ Á¦¸ñ, À©µµ¿ì Ã¢ Á¦¸ñ
+//ë‚´ê°€ ë§Œë“œëŠ” í”„ë¡œê·¸ë¨ì˜ ì œëª©, ìœˆë„ìš° ì°½ ì œëª©
 LPCTSTR lpszClass = TEXT("Bounce2");
 
 int flag = 0;
@@ -43,7 +43,7 @@ void moveBall();
 void collision(HWND hWnd);
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow) {
-	//À©µµ¿ì ÇÁ·Î±×·¥ ¸¸µå´Â ±âº», ÅÛÇÃ¸´ÀÌ¶ó°í »ı°¢
+	//ìœˆë„ìš° í”„ë¡œê·¸ë¨ ë§Œë“œëŠ” ê¸°ë³¸, í…œí”Œë¦¿ì´ë¼ê³  ìƒê°
 	HWND hWnd;
 	MSG Message;
 	WNDCLASS WndClass;
@@ -62,7 +62,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	RegisterClass(&WndClass);
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_BORDER | WS_CAPTION | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, 300, 600,	//À©µµ¿ì Å©±â
+		CW_USEDEFAULT, CW_USEDEFAULT, 300, 600,	//ìœˆë„ìš° í¬ê¸°
 		NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 	hWndMain = hWnd;
@@ -76,7 +76,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	//ÀÌ·¸°Ô ¸¸µé¾î ³õÀ¸¸é ¿©±â°¡ ¹İº¹ÀûÀ¸·Î µ¹¾Æ°¡°Ô µÈ´Ù. ¹«ÇÑ·çÇÁ¿Í ºñ½Á
+	//ì´ë ‡ê²Œ ë§Œë“¤ì–´ ë†“ìœ¼ë©´ ì—¬ê¸°ê°€ ë°˜ë³µì ìœ¼ë¡œ ëŒì•„ê°€ê²Œ ëœë‹¤. ë¬´í•œë£¨í”„ì™€ ë¹„ìŠ·
 	COPYDATASTRUCT* pcd;
 
 	switch (iMessage) {
@@ -125,23 +125,23 @@ void DoCreateMain(HWND hWnd)
 {
 	GetClientRect(hWnd, &value.crt);
 
-	value.x = 30;	//°øÀÇ x ÁÂÇ¥ ÃÊ±â°ª
-	value.y = -30;//°øÀÇ y ÁÂÇ¥ ÃÊ±â°ª
+	value.x = 30;	//ê³µì˜ x ì¢Œí‘œ ì´ˆê¸°ê°’
+	value.y = -30;//ê³µì˜ y ì¢Œí‘œ ì´ˆê¸°ê°’
 
-	value.xv = 0; //(rand() % 4) + 5; //xº¤ÅÍ ¼Óµµ
-	value.yv = 0;//(rand() % 4) + 5; //yº¤ÅÍ ¼Óµµ
+	value.xv = 0; //(rand() % 4) + 5; //xë²¡í„° ì†ë„
+	value.yv = 0;//(rand() % 4) + 5; //yë²¡í„° ì†ë„
 }
 
 void DoPaintMain(HWND hWnd)
 {
-	//Å¸ÀÌ¸Ó¸¦ ¶ç¿ì´Â °÷
+	//íƒ€ì´ë¨¸ë¥¼ ë„ìš°ëŠ” ê³³
 	HDC hdc, hMemDC;
 	PAINTSTRUCT ps;
 	HBITMAP OldBit;
 
 	hdc = BeginPaint(hWnd, &ps);
 
-	//È­¸éÀÌ ¹Ù²î¾úÀ» ¶§, »õ·Î ±×¸®´Â ºÎºĞ
+	//í™”ë©´ì´ ë°”ë€Œì—ˆì„ ë•Œ, ìƒˆë¡œ ê·¸ë¦¬ëŠ” ë¶€ë¶„
 	hMemDC = CreateCompatibleDC(hdc);
 	OldBit = (HBITMAP)SelectObject(hMemDC, hBit);
 	BitBlt(hdc, 0, 0, value.crt.right, value.crt.bottom, hMemDC, 0, 0, SRCCOPY);
@@ -154,9 +154,9 @@ void DoPaintMain(HWND hWnd)
 
 void DoButtonMain(HWND hWnd)
 {
-	//¸¸¾à ÃÊ±â¿¡ ½ÇÇàÇßÀ¸¸é ¾È³»Ã¢À» ¶ç¿öÁÖ´Â °÷
+	//ë§Œì•½ ì´ˆê¸°ì— ì‹¤í–‰í–ˆìœ¼ë©´ ì•ˆë‚´ì°½ì„ ë„ì›Œì£¼ëŠ” ê³³
 	if (btnflag == 0) {
-		MessageBox(hWnd, TEXT("ÇÁ·Î±×·¥ÀÌ ½ÇÇàµÇ¾ú½À´Ï´Ù."), TEXT("OK"), MB_OK);
+		MessageBox(hWnd, TEXT("í”„ë¡œê·¸ë¨ì´ ì‹¤í–‰ë˜ì—ˆìŠµë‹ˆë‹¤."), TEXT("OK"), MB_OK);
 		SetTimer(hWnd, 1, 25, NULL);
 	}
 
@@ -185,7 +185,7 @@ void OnTimer(HWND hWnd)
 	OldPen = (HPEN)SelectObject(hMemDC, hPen);
 	hBrush = CreateSolidBrush(RGB(255, 120, 0));
 	OldBrush = (HBRUSH)SelectObject(hMemDC, hBrush);
-	Ellipse(hMemDC, value.x - R, value.y - R, value.x + R, value.y + R);	 //°ø±×¸®±â
+	Ellipse(hMemDC, value.x - R, value.y - R, value.x + R, value.y + R);	 //ê³µê·¸ë¦¬ê¸°
 
 
 	hBrush = CreateSolidBrush(RGB(255, 255, 0));
@@ -203,7 +203,7 @@ void OnTimer(HWND hWnd)
 	DeleteDC(hMemDC);
 	ReleaseDC(hWnd, hdc);
 	InvalidateRect(hWnd, NULL, FALSE);
-	moveBall();  //°øÀÇ ¿òÁ÷ÀÓ
+	moveBall();  //ê³µì˜ ì›€ì§ì„
 	collision(hWnd);
 
 
